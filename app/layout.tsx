@@ -57,7 +57,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ko" className={`h-full antialiased`}>
       <body
-        className="h-dvh flex flex-col overflow-hidden"
+        className="min-h-dvh flex flex-col"
         style={{ fontFamily: "'SUIT Variable', sans-serif" }}
       >
         <Header />
