@@ -6,13 +6,20 @@ const components: MDXComponents = {
     <h1 className="mb-4 text-2xl font-semibold">{children}</h1>
   ),
   h2: ({ children }) => (
-    <h2 className="mt-6 mb-3 text-xl font-semibold">{children}</h2>
+    <h2 className="mt-10 mb-4 text-lg font-semibold text-gray-800 first:mt-0">
+      {children}
+    </h2>
   ),
   p: ({ children }) => (
-    <p className="mb-4 leading-relaxed text-gray-700">{children}</p>
+    <p className="mb-4 leading-7 text-gray-700">{children}</p>
+  ),
+  strong: ({ children }) => (
+    <strong className="font-semibold text-black">{children}</strong>
   ),
   ul: ({ children }) => (
-    <ul className="mb-4 list-disc space-y-1 pl-5 text-gray-700">{children}</ul>
+    <ul className="mb-4 list-disc space-y-3 pl-5 leading-7 text-gray-700 marker:text-gray-400 [&_ul]:mt-2 [&_ul]:list-[circle] [&_ul]:space-y-1.5 [&_ul]:pl-5 [&_ul]:text-[0.925em] [&_ul]:text-gray-600">
+      {children}
+    </ul>
   ),
   a: ({ children, href }) => (
     <a
@@ -35,12 +42,14 @@ const components: MDXComponents = {
     </pre>
   ),
   img: (props) => (
-    <Image
-      sizes="100vw"
-      style={{ width: "100%", height: "auto" }}
-      className="mb-4 rounded-lg"
-      {...(props as ImageProps)}
-    />
+    <span className="relative mb-4 block aspect-video w-full overflow-hidden rounded-lg">
+      <Image
+        fill
+        sizes="100vw"
+        className="object-contain"
+        {...(props as ImageProps)}
+      />
+    </span>
   ),
 };
 

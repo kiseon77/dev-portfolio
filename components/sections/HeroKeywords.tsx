@@ -10,8 +10,8 @@ interface Keyword {
 }
 
 const KEYWORDS: Keyword[] = [
-  { id: "designer", label: "Designer", skills: "Figma, Design System" },
-  { id: "frontend", label: "Frontend", skills: "React, Typescript" },
+  { id: "designer", label: "UI/UX", skills: "Figma, Design System" },
+  { id: "frontend", label: "Frontend", skills: "Next.js, Typescript" },
   { id: "ai-native", label: "AI-Native", skills: "LLM, Agent, MCP" },
 ];
 

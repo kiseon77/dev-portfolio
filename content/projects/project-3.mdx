@@ -1,27 +1,19 @@
-개인 시간에 만든 할 일 관리 앱입니다. 매일 반복되는 작업을 빠르게 등록하고, 우선순위별로 정리할 수 있도록 만들었습니다.
+아톰릭스랩에 인턴으로 입사하여 2달간 진행한 인턴 과제입니다. <br/>
+사용자가 슬롯머신 게임에서 당첨 시 다채로운 애니메이션과 물리 기반의 효과를 체험하도록 구현
 
-## 주요 기능
+![슬롯머신 당첨 애니메이션](/projects/pgaslot.gif)
 
-- 드래그로 우선순위 재정렬
-- 반복 일정 자동 등록
-- 다크 모드 지원
+## 담당
+
+- 총 3팀의 미니게임 디자인 작업
+- 슬롯머신 기획, 디자인, 프론트엔드 구현
 
 ## 기술 스택
 
-React, TypeScript, Zustand로 상태를 관리했고, 로컬 데이터는 IndexedDB에 저장해 오프라인에서도 동작합니다.
+TypeScript, React, Sass, Zustand, GSAP
 
-## 핵심 코드
+## 주요기능
 
-우선순위 재정렬 로직입니다.
-
-```ts
-function reorder<T>(list: T[], startIndex: number, endIndex: number): T[] {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-  return result;
-}
-```
-
-{/* 스크린샷이 준비되면 아래 주석을 해제하고 이미지를 public/projects/project-3/ 에 추가하세요. */}
-{/* ![할 일 목록 화면](/projects/project-3/screenshot.png) */}
+- **GSAP 타임라인 기반 순차 당첨 연출** : 시퀀스를 활용해 디테일하게 구현
+- **Matter.js 활용 2D 물리 렌더링** : 당첨 시, 재화 애니메이션
+- **CSS steps() 기반 프레임 애니메이션** : 스프라이트 애니메이션

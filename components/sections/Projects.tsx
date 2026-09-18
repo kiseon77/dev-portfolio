@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState, type ComponentType } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import Image from "next/image";
 import clsx from "clsx";
 import { PROJECT_CATEGORIES, PROJECTS } from "@/lib/projects";
 
@@ -16,7 +17,6 @@ const PROJECT_CONTENT: Record<
   "project-2": () => import(`@/content/projects/project-2.mdx`),
   "project-3": () => import(`@/content/projects/project-3.mdx`),
   "project-4": () => import(`@/content/projects/project-4.mdx`),
-  "project-5": () => import(`@/content/projects/project-5.mdx`),
 };
 
 function ProjectModalContent({ projectId }: { projectId: string }) {
@@ -89,7 +89,7 @@ export default function Projects() {
             activeProject?.id === project.id ? (
               <div
                 key={project.id}
-                className={clsx("aspect-[4/2]", project.span)}
+                className={clsx("aspect-[1/2]", project.span)}
               />
             ) : (
               <motion.button
@@ -100,11 +100,21 @@ export default function Projects() {
                   router.push(`?project=${project.id}`, { scroll: false })
                 }
                 className={clsx(
-                  "group relative flex aspect-[4/2] flex-col justify-end rounded-2xl p-5 text-left transition-opacity hover:opacity-90",
+                  "group relative flex aspect-[4/2] flex-col justify-end overflow-hidden rounded-2xl p-5 text-left transition-opacity hover:opacity-90",
                   project.className,
                   project.span,
                 )}
               >
+                {project.thumbnail && (
+                  <Image
+                    src={project.thumbnail}
+                    alt={project.title}
+                    fill
+                    sizes="(min-width: 640px) 50vw, 100vw"
+                    className="object-cover"
+                    loading="eager"
+                  />
+                )}
                 <span className="absolute bottom-4 left-4 flex h-9 items-center overflow-hidden rounded-full bg-white/90 text-black shadow-md backdrop-blur-sm">
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center transition-transform duration-300 -rotate-45 group-hover:rotate-0">
                     <svg
@@ -149,17 +159,29 @@ export default function Projects() {
             >
               <div
                 className={clsx(
-                  "relative flex h-32 flex-col justify-end pt-6 px-6 pb-2",
+                  "relative flex h-48 flex-col justify-end overflow-hidden pt-6 px-6 pb-2",
                   activeProject.className,
                 )}
               >
+                {activeProject.thumbnail && (
+                  <>
+                    <Image
+                      src={activeProject.thumbnail}
+                      alt={activeProject.title}
+                      fill
+                      sizes="672px"
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/50 " />
+                  </>
+                )}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="flex items-center gap-1"
+                  className="relative flex items-center gap-1"
                 >
-                  <h3 className="text-2xl font-semibold">
+                  <h3 className="text-2xl font-semibold text-white drop-shadow-sm">
                     {activeProject.title}
                   </h3>
                   {activeProject.href !== "#" && (
@@ -169,7 +191,7 @@ export default function Projects() {
                       rel="noopener noreferrer"
                       aria-label="프로젝트 링크로 이동"
                       onClick={(e) => e.stopPropagation()}
-                      className="flex h-8 w-8 items-center justify-center rounded-full p-0.5 hover:bg-white/10"
+                      className="flex h-8 w-8 items-center justify-center rounded-full p-0.5 text-white hover:bg-white/10"
                     >
                       <svg
                         width="24"
@@ -181,8 +203,8 @@ export default function Projects() {
                       </svg>
                     </a>
                   )}
-                </motion.div>{" "}
-                <p className="text-lg text-muted-foreground">
+                </motion.div>
+                <p className="relative text-medium font-medium text-white/90 drop-shadow-sm">
                   {activeProject.description}
                 </p>
                 <button

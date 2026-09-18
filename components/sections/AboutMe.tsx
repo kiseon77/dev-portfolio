@@ -16,7 +16,7 @@ export default function AboutMe() {
           </p>
           <p>
             모르는 것 앞에서 멈추기보다는 먼저 배우는 쪽을 택합니다. 필요하면
-            <span className="font-medium">낯선 도구도 익혀서 결과</span>로
+            <span className="font-medium"> 낯선 도구도 익혀서 결과</span>로
             만들어내고, 그 과정에서 발견한 문제는 끝까지 붙잡고 풀어냅니다.
           </p>
           <p>
