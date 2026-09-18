@@ -1,12 +1,43 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type ComponentType } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import clsx from "clsx";
 import { PROJECT_CATEGORIES, PROJECTS } from "@/lib/projects";
 
 const FILTERS = ["전체", ...PROJECT_CATEGORIES] as const;
+
+const PROJECT_CONTENT: Record<
+  string,
+  () => Promise<{ default: ComponentType }>
+> = {
+  "project-1": () => import(`@/content/projects/project-1.mdx`),
+  "project-2": () => import(`@/content/projects/project-2.mdx`),
+  "project-3": () => import(`@/content/projects/project-3.mdx`),
+  "project-4": () => import(`@/content/projects/project-4.mdx`),
+  "project-5": () => import(`@/content/projects/project-5.mdx`),
+};
+
+function ProjectModalContent({ projectId }: { projectId: string }) {
+  const [Content, setContent] = useState<ComponentType | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    PROJECT_CONTENT[projectId]?.().then((mod) => {
+      if (!cancelled) setContent(() => mod.default);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [projectId]);
+
+  if (!Content) {
+    return <div className="h-24 animate-pulse rounded-lg bg-gray-100" />;
+  }
+
+  return <Content />;
+}
 
 export default function Projects() {
   const router = useRouter();
@@ -15,7 +46,9 @@ export default function Projects() {
   const activeProject = PROJECTS.find((p) => p.id === activeId) ?? null;
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>("전체");
   const filteredProjects =
-    filter === "전체" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
+    filter === "전체"
+      ? PROJECTS
+      : PROJECTS.filter((p) => p.category === filter);
 
   const closeModal = useCallback(() => {
     router.push("?", { scroll: false });
@@ -116,18 +149,42 @@ export default function Projects() {
             >
               <div
                 className={clsx(
-                  "relative flex aspect-[4/2] flex-col justify-end p-6",
+                  "relative flex h-32 flex-col justify-end pt-6 px-6 pb-2",
                   activeProject.className,
                 )}
               >
-                <motion.h3
+                <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="text-2xl font-semibold"
+                  className="flex items-center gap-1"
                 >
-                  {activeProject.title}
-                </motion.h3>
+                  <h3 className="text-2xl font-semibold">
+                    {activeProject.title}
+                  </h3>
+                  {activeProject.href !== "#" && (
+                    <a
+                      href={activeProject.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="프로젝트 링크로 이동"
+                      onClick={(e) => e.stopPropagation()}
+                      className="flex h-8 w-8 items-center justify-center rounded-full p-0.5 hover:bg-white/10"
+                    >
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5" />
+                      </svg>
+                    </a>
+                  )}
+                </motion.div>{" "}
+                <p className="text-lg text-muted-foreground">
+                  {activeProject.description}
+                </p>
                 <button
                   type="button"
                   onClick={closeModal}
@@ -153,9 +210,9 @@ export default function Projects() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="bg-white p-6"
+                className="max-h-[60vh] overflow-y-auto bg-white p-6"
               >
-                <p className="text-gray-700">{activeProject.description}</p>
+                <ProjectModalContent projectId={activeProject.id} />
               </motion.div>
             </motion.div>
           </motion.div>

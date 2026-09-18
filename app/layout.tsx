@@ -6,7 +6,7 @@ import Footer from "@/components/sections/Footer";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://dev-protfoil.vercel.app";
 
-const TITLE = "한기선 | Frontend Developer Portfolio";
+const TITLE = "개발자 한기선";
 const DESCRIPTION =
   "기획과 디자인의 언어를 개발 언어로 옮기는 프론트엔드 개발자 한기선의 포트폴리오입니다. React, TypeScript, 디자인 시스템, AI 에이전트(LLM, MCP) 기반 개발 경험을 소개합니다.";
 

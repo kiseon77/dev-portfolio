@@ -1,0 +1,27 @@
+개인 시간에 만든 할 일 관리 앱입니다. 매일 반복되는 작업을 빠르게 등록하고, 우선순위별로 정리할 수 있도록 만들었습니다.
+
+## 주요 기능
+
+- 드래그로 우선순위 재정렬
+- 반복 일정 자동 등록
+- 다크 모드 지원
+
+## 기술 스택
+
+React, TypeScript, Zustand로 상태를 관리했고, 로컬 데이터는 IndexedDB에 저장해 오프라인에서도 동작합니다.
+
+## 핵심 코드
+
+우선순위 재정렬 로직입니다.
+
+```ts
+function reorder<T>(list: T[], startIndex: number, endIndex: number): T[] {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+  return result;
+}
+```
+
+{/* 스크린샷이 준비되면 아래 주석을 해제하고 이미지를 public/projects/project-3/ 에 추가하세요. */}
+{/* ![할 일 목록 화면](/projects/project-3/screenshot.png) */}
