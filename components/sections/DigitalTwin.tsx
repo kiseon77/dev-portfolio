@@ -117,8 +117,7 @@ export default function DigitalTwin() {
             <span className="font-bold text-black">Digital Twin</span>
           </h2>
           <p className="text-base/5 font-semibold text-gray-600">
-            저한테 바로 연락 주시기 전에, <br /> 저를 닮은 AI와 먼저 편하게
-            대화하며 역량과 핏을 확인해보세요.
+            저를 닮은 AI와 먼저 편하게 대화하며 역량과 핏을 확인해보세요.
           </p>
           <div className="flex flex-col gap-1 text-xs font-semibold text-gray-500">
             <p>

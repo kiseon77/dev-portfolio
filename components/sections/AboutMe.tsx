@@ -2,7 +2,7 @@ export default function AboutMe() {
   return (
     <section className="w-full bg-[#F0F0F0]">
       <div className="flex flex-col sm:flex-row w-full max-w-6xl mx-auto px-4 py-16 sm:px-14">
-        <div className="w-full sm:w-1/3">ㅇ</div>
+        <div className="w-full sm:w-1/3"> </div>
         <div className="flex flex-col gap-3 w-full sm:w-2/3 font-base text-base/6 sm:text-xl/6 break-keep">
           <p>
             디자인은 좋은 경험을 그리는 일이었지만, 그 경험이 실제로 작동하게
