@@ -3,6 +3,7 @@ import Dragon2_5D from "@/components/ui/Dragon2_5D";
 import HeroKeywords from "@/components/sections/HeroKeywords";
 import AboutMe from "@/components/sections/AboutMe";
 import Projects from "@/components/sections/Projects";
+import DigitalTwin from "@/components/sections/DigitalTwin";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <Suspense>
         <Projects />
       </Suspense>
+      <DigitalTwin />
     </main>
   );
 }
