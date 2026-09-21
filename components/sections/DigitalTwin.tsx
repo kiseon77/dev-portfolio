@@ -11,11 +11,21 @@ interface Message {
 
 const CONTACT_EMAIL = "kiseon.han77@gmail.com";
 
+function splitParagraphs(text: string): string[] {
+  const parts = text.split(/\n{2,}/).filter((p) => p.trim());
+  return parts.length > 0 ? parts : [text];
+}
+
 const WELCOME: Message = {
   role: "assistant",
   content:
     "안녕하세요, 개발자 한기선씨의 디지털 트윈입니다. 경력, 기술, 프로젝트에 대해 무엇이든 물어보세요.",
 };
+
+const SUGGESTED_QUESTIONS = [
+  "가장 자신있는 프로젝트가 뭐예요?",
+  "어떤 기술 스택을 주로 다루세요?",
+];
 
 const OFFLINE_WELCOME: Message = {
   role: "assistant",
@@ -58,9 +68,7 @@ export default function DigitalTwin() {
     });
   };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    const trimmed = input.trim();
+  const sendMessage = async (trimmed: string) => {
     if (!trimmed || isLoading) return;
 
     setError(null);
@@ -93,9 +101,13 @@ export default function DigitalTwin() {
         const { done, value } = await reader.read();
         if (done) break;
         acc += decoder.decode(value, { stream: true });
-        setMessages((prev) => [
-          ...prev.slice(0, -1),
-          { role: "assistant", content: acc },
+        const bubbles = splitParagraphs(acc);
+        setMessages([
+          ...nextMessages,
+          ...bubbles.map((content) => ({
+            role: "assistant" as const,
+            content,
+          })),
         ]);
         scrollToBottom();
       }
@@ -105,6 +117,11 @@ export default function DigitalTwin() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    sendMessage(input.trim());
   };
 
   return (
@@ -155,7 +172,7 @@ export default function DigitalTwin() {
 
           <div
             ref={scrollRef}
-            className="flex h-90 flex-col gap-3 overflow-y-auto p-4"
+            className="flex h-90 flex-col overflow-y-auto p-4"
           >
             {messages.map((m, i) =>
               m.role === "user" ? (
@@ -163,7 +180,10 @@ export default function DigitalTwin() {
                   key={i}
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="max-w-[80%] self-end rounded-lg bg-neutral-800 px-3 py-2"
+                  className={clsx(
+                    "max-w-[80%] self-end rounded-lg bg-neutral-800 px-3 py-2",
+                    i === 0 ? "" : messages[i - 1]?.role === "assistant" ? "mt-3" : "mt-1",
+                  )}
                 >
                   <p className="whitespace-pre-wrap text-xs font-medium text-white sm:text-sm">
                     {m.content}
@@ -174,14 +194,19 @@ export default function DigitalTwin() {
                   key={i}
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="max-w-[80%] self-start rounded-lg border border-black/10 bg-gray-50 p-3"
+                  className={clsx(
+                    "max-w-[80%] self-start rounded-lg border border-black/10 bg-gray-50 p-3",
+                    i === 0 ? "" : messages[i - 1]?.role === "assistant" ? "mt-1" : "mt-3",
+                  )}
                 >
-                  <p className="mb-1 text-[10px] font-semibold tracking-wider text-gray-400">
-                    {"> CORE_RESPONSE"}
-                  </p>
+                  {messages[i - 1]?.role !== "assistant" && (
+                    <p className="mb-1 text-[10px] font-semibold tracking-wider text-gray-400">
+                      {"> CORE_RESPONSE"}
+                    </p>
+                  )}
                   <p className="whitespace-pre-wrap text-xs font-medium text-gray-800 sm:text-sm">
-                    {m.content ||
-                      (isLoading && i === messages.length - 1 ? "▍" : "")}
+                    {m.content}
+                    {isLoading && i === messages.length - 1 ? "▍" : ""}
                   </p>
                   {isConnected === false &&
                     m === messages[messages.length - 1] && (
@@ -199,6 +224,20 @@ export default function DigitalTwin() {
               <p className="text-xs font-semibold text-red-500">
                 [NOT WORKED]: {error}
               </p>
+            )}
+            {messages.length === 1 && isConnected && !isLoading && (
+              <div className="mt-3 flex flex-wrap gap-2 self-start">
+                {SUGGESTED_QUESTIONS.map((q) => (
+                  <button
+                    key={q}
+                    type="button"
+                    onClick={() => sendMessage(q)}
+                    className="rounded-full border border-black/10 bg-gray-50 px-3 py-1.5 text-xs font-medium text-gray-600 transition-colors hover:bg-gray-100"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
             )}
           </div>
 
