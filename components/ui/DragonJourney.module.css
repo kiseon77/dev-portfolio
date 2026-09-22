@@ -1,0 +1,21 @@
+.journey {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: min(90vw, 90vh);
+  height: min(90vw, 90vh);
+  pointer-events: none;
+  z-index: 2;
+  will-change: transform;
+}
+.flight, .landing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.landing {
+  opacity: 0;
+  /* Feather the generated paper background into both section backgrounds. */
+  mask-image: radial-gradient(ellipse 50% 49% at 50% 49%, #000 65%, transparent 100%);
+}
