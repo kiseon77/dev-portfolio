@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { transparentDragon } from "./dragonTransparency";
 import styles from "./DragonJourney.module.css";
 
 const COUNT = 121;
@@ -24,7 +25,7 @@ export default function DragonJourney() {
     if (!hero || !landing || !layer || !canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const frames: (HTMLImageElement | undefined)[] = Array(COUNT);
+    const frames: (ImageBitmap | undefined)[] = Array(COUNT);
     let disposed = false;
     let raf = 0;
     let drawnFrame = -1;
@@ -87,8 +88,10 @@ export default function DragonJourney() {
         img.src = `/dragon/landing-motion/frame-${String(i + 1).padStart(3, "0")}.webp`;
         await img.decode();
         if (disposed) return;
-        frames[i] = img;
-        if (i === 0) { ctx!.drawImage(img, 0, 0, SIZE, SIZE); }
+        const cutout = await transparentDragon(img);
+        if (disposed) { cutout.close(); return; }
+        frames[i] = cutout;
+        if (i === 0) { ctx!.drawImage(cutout, 0, 0, SIZE, SIZE); }
       }
     }
     void Promise.all(Array.from({ length: 4 }, worker)).then(() => {
@@ -105,6 +108,7 @@ export default function DragonJourney() {
     schedule();
     return () => {
       disposed = true;
+      frames.forEach((frame) => frame?.close());
       cancelAnimationFrame(raf);
       observer.disconnect();
       window.removeEventListener("scroll", schedule);

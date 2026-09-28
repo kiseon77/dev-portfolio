@@ -6,15 +6,12 @@
   height: min(92vw, 108vh);
   pointer-events: none;
   z-index: 2;
-  mix-blend-mode: multiply;
   will-change: transform;
 }
 .landing {
   display: block;
   width: 100%;
   height: 100%;
-  /* Preserve the feet and tail; soften only the outside paper edge. */
-  mask-image: radial-gradient(ellipse 58% 58% at 50% 50%, #000 75%, transparent 100%);
 }
 .status {
   position: absolute;
