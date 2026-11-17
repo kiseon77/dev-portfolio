@@ -7,6 +7,8 @@ import styles from "./DragonJourney.module.css";
 const COUNT = 121;
 const SIZE = 960;
 const CONTACT = 0.62;
+/** Progress over which the hero dragon hands off to the landing frames. */
+const HANDOFF = 0.15;
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
 const ease = (n: number) => n * n * (3 - 2 * n);
 const lerp = (a: number, b: number, p: number) => a + (b - a) * p;
@@ -25,6 +27,7 @@ export default function DragonJourney() {
     if (!hero || !landing || !layer || !canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+    ctx.imageSmoothingQuality = "high";
     const frames: (ImageBitmap | undefined)[] = Array(COUNT);
     let disposed = false;
     let raf = 0;
@@ -47,7 +50,9 @@ export default function DragonJourney() {
       const end = Math.max(start + h.height * 0.65, destinationY - innerHeight * 0.42);
       const p = clamp((scrollY - start) / (end - start));
       const travel = ease(clamp(p / CONTACT));
-      const startSize = Math.min(h.width * 0.92, h.height * 1.08, 1000);
+      // Frames are 960px; keep the in-flight size small enough that they are not
+      // upscaled far past their source resolution on high-DPI screens.
+      const startSize = Math.min(h.width * 0.92, h.height * 1.08, 640);
       const endSize = Math.min(d.width, d.height);
       const size = lerp(startSize, endSize, travel);
       const startX = h.left + h.width / 2;
@@ -62,6 +67,11 @@ export default function DragonJourney() {
       layer.style.height = `${size}px`;
       layer.style.transform = `translate3d(${x - size / 2}px,${y - size / 2}px,0)`;
       layer.style.visibility = d.bottom < 0 ? "hidden" : "visible";
+      // At the top the interactive WebGL dragon (mouse follow, flight) is shown
+      // at full resolution; the frame sequence only takes over once scrolling starts.
+      const fade = clamp(p / HANDOFF);
+      layer.style.opacity = String(fade);
+      hero.style.setProperty("--hero-dragon", String(1 - fade));
       // The source reaches four-foot contact at frame 60. Spend the remaining
       // scroll distance on bending the hind legs and settling the tail.
       const pose = p <= CONTACT ? p / CONTACT * 60 : 60 + (p - CONTACT) / (1 - CONTACT) * 60;

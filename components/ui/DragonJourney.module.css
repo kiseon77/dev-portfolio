@@ -6,7 +6,8 @@
   height: min(92vw, 108vh);
   pointer-events: none;
   z-index: 2;
-  will-change: transform;
+  will-change: transform, opacity;
+  opacity: 0;
 }
 .landing {
   display: block;

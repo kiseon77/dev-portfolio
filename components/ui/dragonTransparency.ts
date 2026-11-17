@@ -31,6 +31,34 @@ export async function transparentDragon(image: HTMLImageElement): Promise<ImageB
     if (i >= w) seed(i - w);
     if (i < count - w) seed(i + w);
   }
+  // Paper enclosed by the subject (inside the whisker loop, between tail and
+  // body) is not reachable from the border. Remove an enclosed region only when
+  // its average colour matches the border paper; cream fur differs by 11+ levels
+  // across all 121 frames, the trapped paper by 9 or less.
+  let pr = 0, pg = 0, pb = 0;
+  for (let k = 0; k < tail; k++) {
+    const i = queue[k];
+    pr += data[i * 4]; pg += data[i * 4 + 1]; pb += data[i * 4 + 2];
+  }
+  if (tail) { pr /= tail; pg /= tail; pb /= tail; }
+  const seen = new Uint8Array(count);
+  const region = new Int32Array(count);
+  for (let s = 0; s < count; s++) {
+    if (!eligible[s] || background[s] || seen[s]) continue;
+    let rh = 0, rt = 0, sr = 0, sg = 0, sb = 0;
+    seen[s] = 1; region[rt++] = s;
+    while (rh < rt) {
+      const i = region[rh++], x = i % w;
+      sr += data[i * 4]; sg += data[i * 4 + 1]; sb += data[i * 4 + 2];
+      const next = [x > 0 ? i - 1 : -1, x < w - 1 ? i + 1 : -1, i >= w ? i - w : -1, i < count - w ? i + w : -1];
+      for (const j of next) {
+        if (j >= 0 && eligible[j] && !background[j] && !seen[j]) { seen[j] = 1; region[rt++] = j; }
+      }
+    }
+    const diff = Math.max(Math.abs(sr / rt - pr), Math.abs(sg / rt - pg), Math.abs(sb / rt - pb));
+    if (rt >= 150 && diff <= 9) for (let k = 0; k < rt; k++) background[region[k]] = 1;
+  }
+
   for (let i = 0; i < count; i++) {
     if (background[i]) { data[i * 4 + 3] = 0; continue; }
     // A narrow antialiased edge avoids a hard cut without blurring the subject.
