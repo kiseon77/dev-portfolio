@@ -1,33 +1,36 @@
 export default function AboutMe() {
   return (
-    <section className="w-full bg-[#F0F0F0]">
+    <section id="about-me" className="w-full bg-[#F0F0F0]">
       <div className="flex flex-col sm:flex-row w-full max-w-6xl mx-auto px-4 py-16 sm:px-14">
-        <div className="w-full sm:w-1/3">
-          <p className="mb-4 text-sm font-semibold text-neutral-600 sm:mb-0">
-            About
-          </p>
-        </div>
-        <div className="flex flex-col gap-3 w-full sm:w-2/3 text-base/7 sm:text-xl/8 break-keep">
+        <div
+          id="dragon-landing"
+          aria-hidden="true"
+          className="relative mx-auto mb-8 aspect-square w-[min(72vw,280px)] shrink-0 sm:mb-0 sm:w-1/3 sm:self-center"
+        />
+        <div className="flex flex-col gap-4 w-full sm:w-2/3 text-base/7 sm:text-xl/8 break-keep">
+          <p className="text-sm font-semibold text-neutral-600">About me</p>
           <p>
-            디자인은 좋은 경험을 그리는 일이었지만, 그 경험이 실제로 작동하게
-            만드는 건 코드였습니다. 그래서 저는 기획의 의도를 읽고, 디자인의
-            언어를 알아듣고, 그것을{" "}
+            UX/UI 디자이너로 화면을 그리다, 그 화면이 실제로 작동하게 만드는
+            코드에 끌려 개발자가 되었습니다. 그래서 기획의 의도와 디자인의
+            언어를 읽고, 그것을{" "}
             <span className="font-bold">
-              {" "}
               코드로 옮기는 사이의 간극을 좁히는 일
             </span>
-            을 좋아합니다.
+            을 가장 좋아합니다.
           </p>
           <p>
-            모르는 것 앞에서 멈추기보다는 먼저 배우는 쪽을 택합니다. 필요하면
-            <span className="font-bold"> 낯선 도구도 익혀서 결과</span>로
-            만들어내고, 그 과정에서 발견한 문제는 끝까지 붙잡고 풀어냅니다.
+            기획이 비어 있을 때 멈추지 않고{" "}
+            <span className="font-bold">요구사항부터 직접 정의해 끝까지</span>{" "}
+            만들었습니다. 회사에서는 고정된 이벤트 화면을 관리자가 구성하는
+            화면으로 바꿨고, 팀 프로젝트에서는 와이어프레임부터 다시 그려 6주
+            안에 배포했습니다.
           </p>
           <p>
-            혼자 하는 개발자보다,{" "}
+            AI로 빠르게 만들되,{" "}
+            <span className="font-bold">직접 읽고 테스트할 수 있는 구조</span>를
+            고릅니다. 혼자 잘하는 개발자보다{" "}
             <span className="font-bold">함께 일하기 편한 개발자</span>가 되고
-            싶습니다. 오늘도 팀원들과 더 많이 대화하고, 더 나은 코드를 쓰기 위해
-            고민합니다.
+            싶어, 팀이 매일 반복하는 일은 컨벤션과 자동화 도구로 바꿔 나갑니다.
           </p>
         </div>
       </div>
