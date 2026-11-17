@@ -12,11 +12,11 @@ const suit = localFont({
 });
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://dev-protfoil.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://dev-portfolio-five-smoky.vercel.app";
 
 const TITLE = "개발자 한기선";
 const DESCRIPTION =
-  "기획과 디자인의 언어를 개발 언어로 옮기는 프론트엔드 개발자 한기선의 포트폴리오입니다. React, TypeScript, 디자인 시스템, AI 에이전트(LLM, MCP) 기반 개발 경험을 소개합니다.";
+  "기획과 디자인의 언어를 개발 언어로 옮기는 프론트엔드·풀스택 개발자 한기선의 포트폴리오입니다. React, TypeScript, 디자인 시스템, LLM 프롬프트와 자동화 경험을 소개합니다.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

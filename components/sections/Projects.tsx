@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState, type ComponentType } from "react";
+import { useCallback, useEffect, useRef, useState, type ComponentType } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import clsx from "clsx";
@@ -46,6 +46,8 @@ export default function Projects() {
   const activeId = searchParams.get("project");
   const activeProject = PROJECTS.find((p) => p.id === activeId) ?? null;
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>("전체");
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const lastFocusedRef = useRef<HTMLElement | null>(null);
   const filteredProjects =
     filter === "전체"
       ? PROJECTS
@@ -57,15 +59,37 @@ export default function Projects() {
 
   useEffect(() => {
     if (!activeProject) return;
+    lastFocusedRef.current = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => dialogRef.current?.focus());
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeModal();
+      if (e.key !== "Tab" || !dialogRef.current) return;
+      const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+      lastFocusedRef.current?.focus();
+    };
   }, [activeProject, closeModal]);
 
   return (
-    <section className="w-full">
+    <section id="projects" className="w-full">
       <div className="w-full max-w-6xl mx-auto px-4 py-16 sm:px-14">
         <h2 className="mb-6 text-xl font-bold sm:text-2xl">프로젝트</h2>
         <div className="mb-6 flex gap-2">
@@ -111,7 +135,7 @@ export default function Projects() {
                       fill
                       sizes="(min-width: 640px) 50vw, 100vw"
                       className="object-cover"
-                      loading="eager"
+                      loading={project.id === "project-1" ? "eager" : "lazy"}
                     />
                   )}
                   <span className="absolute bottom-4 left-4 flex h-9 items-center overflow-hidden rounded-full bg-white/90 text-black shadow-md backdrop-blur-sm">
@@ -182,6 +206,11 @@ export default function Projects() {
             exit={{ opacity: 0 }}
           >
             <motion.div
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="project-dialog-title"
+              tabIndex={-1}
               layoutId={`project-card-${activeProject.id}`}
               className="w-full max-w-3xl overflow-hidden rounded-2xl shadow-xl"
               onClick={(e) => e.stopPropagation()}
@@ -210,7 +239,7 @@ export default function Projects() {
                   exit={{ opacity: 0 }}
                   className="relative flex items-center gap-1"
                 >
-                  <h3 className="text-2xl font-semibold text-white drop-shadow-sm">
+                  <h3 id="project-dialog-title" className="text-2xl font-semibold text-white drop-shadow-sm">
                     {activeProject.title}
                   </h3>
                   {activeProject.href !== "#" && (

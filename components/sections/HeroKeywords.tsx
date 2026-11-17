@@ -12,7 +12,7 @@ interface Keyword {
 const KEYWORDS: Keyword[] = [
   { id: "designer", label: "UI/UX", skills: "Figma, Design System" },
   { id: "frontend", label: "Frontend", skills: "Next.js, Typescript" },
-  { id: "ai-native", label: "AI-Native", skills: "LLM, Agent, MCP" },
+  { id: "ai-native", label: "AI-Native", skills: "LLM, Prompt, Automation" },
 ];
 
 const INITIAL_POSITIONS: Record<string, { xPct: number; yPct: number }> = {
@@ -130,7 +130,7 @@ export default function HeroKeywords() {
         );
       })}
 
-      <div className="pointer-events-auto absolute bottom-[10%] left-4 right-4 flex flex-col items-end gap-2 text-right text-2xl md:left-auto md:right-[-2%] md:text-4xl">
+      <div className="pointer-events-auto absolute bottom-[7%] left-4 right-4 flex flex-col items-end gap-2 text-right text-2xl md:bottom-[10%] md:left-auto md:right-0 md:text-4xl">
         <p className="-mb-2 text-xs text-neutral-500 md:text-sm">
           {active ? active.skills : ""}
         </p>
@@ -175,6 +175,25 @@ export default function HeroKeywords() {
         <p className="text-2xl md:text-4xl ">
           <span className="font-bold">한기선</span> 입니다
         </p>
+        <p className="mt-2 max-w-xl text-sm font-medium leading-6 text-neutral-700 md:text-base">
+          Web3 게임 프론트엔드 1년 3개월 · UX/UI 디자인 경험 · DB 설계부터 AWS 배포까지
+        </p>
+        <div className="mt-2 flex flex-wrap justify-end gap-2 text-sm">
+          <a href="#projects" className="rounded-full bg-black px-4 py-2 font-semibold text-white">
+            프로젝트 보기
+          </a>
+          <a href="#digital-twin" className="rounded-full border border-black/20 bg-white/80 px-4 py-2 font-semibold text-black">
+            디지털 트윈에게 질문
+          </a>
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full border border-black/20 bg-white/80 px-4 py-2 font-semibold text-black"
+          >
+            이력서 보기
+          </a>
+        </div>
       </div>
 
       {dragging && (

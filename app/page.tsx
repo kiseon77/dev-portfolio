@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <main className="flex flex-col font-sans">
       <DragonJourney />
-      <section id="dragon-hero" className="relative flex h-dvh w-full max-w-6xl mx-auto flex-col items-stretch justify-center py-4">
+      <section id="dragon-hero" className="relative flex h-[82svh] min-h-[620px] w-full max-w-6xl mx-auto flex-col items-stretch justify-center py-4 md:h-dvh">
         {/* 히어로에서는 마우스를 따라 나는 원본 용, 스크롤을 시작하면 착지 애니메이션으로 넘긴다 */}
         <div className="h-full w-full" style={{ opacity: "var(--hero-dragon, 1)" }}>
           <Dragon2_5D />

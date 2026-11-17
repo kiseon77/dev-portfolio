@@ -18,7 +18,7 @@ function Header() {
               src="/github.svg"
               width={20}
               height={20}
-              alt="Picture of the author"
+              alt="GitHub"
             />
           </Link>
         </li>
@@ -32,7 +32,7 @@ function Header() {
               src="/linkdin.svg"
               width={20}
               height={20}
-              alt="Picture of the author"
+              alt="LinkedIn"
             />
           </Link>
         </li>
@@ -46,7 +46,7 @@ function Header() {
               src="/email.svg"
               width={20}
               height={20}
-              alt="Picture of the author"
+              alt="이메일 보내기"
             />
           </Link>
         </li>

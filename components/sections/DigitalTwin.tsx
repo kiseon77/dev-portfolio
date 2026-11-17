@@ -121,7 +121,7 @@ export default function DigitalTwin() {
   };
 
   return (
-    <section className="w-full bg-[#F0F0F0] ">
+    <section id="digital-twin" className="w-full bg-[#F0F0F0] ">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-16 sm:px-14 lg:flex-row lg:items-center">
         <div className="flex w-full flex-col gap-4 lg:w-1/2">
           <h2 className="text-3xl font-medium text-black/80 sm:text-4xl">
@@ -146,6 +146,7 @@ export default function DigitalTwin() {
               )}
             </p>
             {modelName && <p>COGNITION: {modelName.toUpperCase()}</p>}
+            <p>KNOWLEDGE: 2026.11 이력서 · 포트폴리오 프로젝트 상세</p>
           </div>
         </div>
 
@@ -279,6 +280,9 @@ export default function DigitalTwin() {
               </svg>
             </button>
           </form>
+          <p className="border-t border-black/10 px-3 py-2 text-[11px] leading-4 text-gray-500">
+            입력한 내용은 AI 답변 생성을 위해 Google Gemini로 전송됩니다. 개인정보나 민감한 정보는 입력하지 마세요.
+          </p>
         </div>
       </div>
     </section>

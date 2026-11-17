@@ -33,10 +33,10 @@ function Footer() {
             <span className="font-bold">기획과 디자인의 언어</span>를
             이해하고,
             <span className="font-bold">개발 언어</span>로 옮깁니다. <br />
-            끊임 없는 <span className="font-bold">도전</span>을 통해 꾸준히{" "}
-            <span className="font-bold">성장</span>해나아가고 있습니다.
+            끊임없는 <span className="font-bold">도전</span>을 통해 꾸준히{" "}
+            <span className="font-bold">성장</span>해 나가고 있습니다.
             <br />{" "}
-            <span className="font-bold">Let&rsquo;s go work together!</span>
+            <span className="font-bold">Let&rsquo;s work together!</span>
           </p>
           © {new Date().getFullYear()} KISEON.dev. All rights reserved.
         </div>

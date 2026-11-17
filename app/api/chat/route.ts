@@ -20,6 +20,11 @@ const hits = new Map<string, number[]>();
 
 function isRateLimited(ip: string) {
   const now = Date.now();
+  if (hits.size > 1_000) {
+    for (const [key, timestamps] of hits) {
+      if (timestamps.every((t) => now - t >= RATE_WINDOW_MS)) hits.delete(key);
+    }
+  }
   const recent = (hits.get(ip) ?? []).filter((t) => now - t < RATE_WINDOW_MS);
   recent.push(now);
   hits.set(ip, recent);
@@ -36,7 +41,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const ip = request.headers.get("x-forwarded-for") ?? "unknown";
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
   if (isRateLimited(ip)) {
     return new Response(JSON.stringify({ error: "API LIMIT EXCEEDED" }), {
       status: 429,

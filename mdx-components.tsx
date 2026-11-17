@@ -68,6 +68,7 @@ const components: MDXComponents = {
         sizes="100vw"
         className="object-contain"
         {...(props as ImageProps)}
+        alt={(props as ImageProps).alt ?? ""}
       />
     </span>
   ),
