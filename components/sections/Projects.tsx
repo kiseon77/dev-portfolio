@@ -17,6 +17,7 @@ const PROJECT_CONTENT: Record<
   "project-2": () => import(`@/content/projects/project-2.mdx`),
   "project-3": () => import(`@/content/projects/project-3.mdx`),
   "project-4": () => import(`@/content/projects/project-4.mdx`),
+  "project-5": () => import(`@/content/projects/project-5.mdx`),
 };
 
 function ProjectModalContent({ projectId }: { projectId: string }) {
@@ -66,7 +67,7 @@ export default function Projects() {
   return (
     <section className="w-full">
       <div className="w-full max-w-6xl mx-auto px-4 py-16 sm:px-14">
-        <h2 className="mb-6 text-xl font-medium sm:text-2xl">프로젝트</h2>
+        <h2 className="mb-6 text-xl font-bold sm:text-2xl">프로젝트</h2>
         <div className="mb-6 flex gap-2">
           {FILTERS.map((f) => (
             <button
@@ -77,69 +78,97 @@ export default function Projects() {
                 "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
                 filter === f
                   ? "bg-black text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200",
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200",
               )}
             >
               {f}
             </button>
           ))}
         </div>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {filteredProjects.map((project) =>
-            activeProject?.id === project.id ? (
-              <div
-                key={project.id}
-                className={clsx("aspect-[1/2]", project.span)}
-              />
-            ) : (
-              <motion.button
-                key={project.id}
+        <div className="grid grid-cols-1 gap-x-3 gap-y-8 sm:grid-cols-2">
+          {filteredProjects.map((project) => (
+            <article key={project.id} className="flex flex-col gap-3">
+              {activeProject?.id === project.id ? (
+                <div className={clsx("aspect-[4/2] rounded-2xl", project.span)} />
+              ) : (
+                <motion.button
+                  type="button"
+                  layoutId={`project-card-${project.id}`}
+                  onClick={() =>
+                    router.push(`?project=${project.id}`, { scroll: false })
+                  }
+                  aria-label={`${project.title} 자세히 보기`}
+                  className={clsx(
+                    "group relative flex aspect-[4/2] flex-col justify-end overflow-hidden rounded-2xl p-5 text-left transition-opacity hover:opacity-90",
+                    project.className,
+                    project.span,
+                  )}
+                >
+                  {project.thumbnail && (
+                    <Image
+                      src={project.thumbnail}
+                      alt={project.title}
+                      fill
+                      sizes="(min-width: 640px) 50vw, 100vw"
+                      className="object-cover"
+                      loading="eager"
+                    />
+                  )}
+                  <span className="absolute bottom-4 left-4 flex h-9 items-center overflow-hidden rounded-full bg-white/90 text-black shadow-md backdrop-blur-sm">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center transition-transform duration-300 -rotate-45 group-hover:rotate-0">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg>
+                    </span>
+                    <span className="grid grid-cols-[0fr] transition-[grid-template-columns] duration-300 ease-out group-hover:grid-cols-[1fr] group-hover:pr-3">
+                      <span className="overflow-hidden whitespace-nowrap text-sm font-medium">
+                        자세히 보기
+                      </span>
+                    </span>
+                  </span>
+                </motion.button>
+              )}
+              <button
                 type="button"
-                layoutId={`project-card-${project.id}`}
                 onClick={() =>
                   router.push(`?project=${project.id}`, { scroll: false })
                 }
-                className={clsx(
-                  "group relative flex aspect-[4/2] flex-col justify-end overflow-hidden rounded-2xl p-5 text-left transition-opacity hover:opacity-90",
-                  project.className,
-                  project.span,
-                )}
+                className="flex flex-col gap-1.5 px-1 text-left"
               >
-                {project.thumbnail && (
-                  <Image
-                    src={project.thumbnail}
-                    alt={project.title}
-                    fill
-                    sizes="(min-width: 640px) 50vw, 100vw"
-                    className="object-cover"
-                    loading="eager"
-                  />
-                )}
-                <span className="absolute bottom-4 left-4 flex h-9 items-center overflow-hidden rounded-full bg-white/90 text-black shadow-md backdrop-blur-sm">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center transition-transform duration-300 -rotate-45 group-hover:rotate-0">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                      <polyline points="12 5 19 12 12 19" />
-                    </svg>
+                <span className="flex flex-wrap items-baseline gap-x-2">
+                  <span className="text-lg font-bold text-black">
+                    {project.title}
                   </span>
-                  <span className="grid grid-cols-[0fr] transition-[grid-template-columns] duration-300 ease-out group-hover:grid-cols-[1fr] group-hover:pr-3">
-                    <span className="overflow-hidden whitespace-nowrap text-sm font-medium">
-                      {project.title}
-                    </span>
+                  <span className="text-xs text-neutral-600">
+                    {project.period}
                   </span>
                 </span>
-              </motion.button>
-            ),
-          )}
+                <span className="text-sm leading-6 text-neutral-800 break-keep">
+                  {project.description}
+                </span>
+                <span className="flex flex-wrap gap-1.5">
+                  {project.tags.map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-full bg-white/70 px-2.5 py-0.5 text-xs text-neutral-800"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </span>
+              </button>
+            </article>
+          ))}
         </div>
       </div>
 
@@ -154,12 +183,12 @@ export default function Projects() {
           >
             <motion.div
               layoutId={`project-card-${activeProject.id}`}
-              className="w-full max-w-2xl overflow-hidden rounded-2xl shadow-xl"
+              className="w-full max-w-3xl overflow-hidden rounded-2xl shadow-xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div
                 className={clsx(
-                  "relative flex h-48 flex-col justify-end overflow-hidden pt-6 px-6 pb-2",
+                  "relative flex h-40 flex-col justify-end overflow-hidden px-6 pb-4 pt-6 sm:h-44",
                   activeProject.className,
                 )}
               >
@@ -169,7 +198,7 @@ export default function Projects() {
                       src={activeProject.thumbnail}
                       alt={activeProject.title}
                       fill
-                      sizes="672px"
+                      sizes="768px"
                       className="object-cover"
                     />
                     <div className="absolute inset-0 bg-black/50 " />
@@ -204,8 +233,11 @@ export default function Projects() {
                     </a>
                   )}
                 </motion.div>
-                <p className="relative text-medium font-medium text-white/90 drop-shadow-sm">
+                <p className="relative text-sm font-medium text-white/90 drop-shadow-sm sm:text-base">
                   {activeProject.description}
+                  <span className="ml-2 text-white/60">
+                    {activeProject.period}
+                  </span>
                 </p>
                 <button
                   type="button"
@@ -232,7 +264,7 @@ export default function Projects() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="max-h-[60vh] overflow-y-auto bg-white p-6"
+                className="max-h-[72vh] overflow-y-auto bg-white p-5 break-keep sm:p-8"
               >
                 <ProjectModalContent projectId={activeProject.id} />
               </motion.div>

@@ -118,7 +118,7 @@ export default function HeroKeywords() {
             }}
             style={style}
             className={clsx(
-              "pointer-events-auto absolute cursor-grab touch-none select-none rounded-md px-4 py-2 text-base font-light md:px-6 md:py-3 md:text-2xl",
+              "pointer-events-auto absolute cursor-grab touch-none select-none rounded-md px-4 py-2 text-base font-medium md:px-6 md:py-3 md:text-2xl",
               activeId === k.id
                 ? "bg-black text-white"
                 : "bg-white hover:bg-neutral-100",
@@ -173,7 +173,7 @@ export default function HeroKeywords() {
           개발자
         </p>
         <p className="text-2xl md:text-4xl ">
-          <span className="font-medium">한기선</span> 입니다
+          <span className="font-bold">한기선</span> 입니다
         </p>
       </div>
 

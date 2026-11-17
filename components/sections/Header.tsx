@@ -4,7 +4,7 @@ import Link from "next/link";
 function Header() {
   return (
     <header className="flex items-center justify-between h-14 px-4 sm:px-14">
-      <Link className="text-sm font-medium" href="/">
+      <Link className="text-sm font-bold" href="/">
         KISEON.dev
       </Link>
       <ul className="flex gap-4">

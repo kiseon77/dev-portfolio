@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Dragon2_5D from "@/components/ui/Dragon2_5D";
 import HeroKeywords from "@/components/sections/HeroKeywords";
 import AboutMe from "@/components/sections/AboutMe";
+import Journey from "@/components/sections/Journey";
 import Projects from "@/components/sections/Projects";
 import DigitalTwin from "@/components/sections/DigitalTwin";
 
@@ -13,6 +14,7 @@ export default function Home() {
         <HeroKeywords />
       </section>
       <AboutMe />
+      <Journey />
       <Suspense>
         <Projects />
       </Suspense>

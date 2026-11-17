@@ -1,23 +1,43 @@
 import type { MDXComponents } from "mdx/types";
 import Image, { ImageProps } from "next/image";
+import {
+  Cases,
+  Chips,
+  Compare,
+  Figure,
+  Flow,
+  Highlights,
+  Overview,
+  RouletteSketch,
+  SideBySide,
+} from "@/components/mdx/blocks";
 
 const components: MDXComponents = {
+  Overview,
+  Highlights,
+  Flow,
+  Cases,
+  Compare,
+  Figure,
+  Chips,
+  RouletteSketch,
+  SideBySide,
   h1: ({ children }) => (
     <h1 className="mb-4 text-2xl font-semibold">{children}</h1>
   ),
   h2: ({ children }) => (
-    <h2 className="mt-10 mb-4 text-lg font-semibold text-gray-800 first:mt-0">
+    <h2 className="mt-10 mb-4 flex items-center gap-2 text-lg font-bold text-gray-900 first:mt-0 before:h-4 before:w-1 before:rounded-full before:bg-gray-900 before:content-['']">
       {children}
     </h2>
   ),
   p: ({ children }) => (
-    <p className="mb-4 leading-7 text-gray-700">{children}</p>
+    <p className="mb-4 leading-7 text-gray-800">{children}</p>
   ),
   strong: ({ children }) => (
     <strong className="font-semibold text-black">{children}</strong>
   ),
   ul: ({ children }) => (
-    <ul className="mb-4 list-disc space-y-3 pl-5 leading-7 text-gray-700 marker:text-gray-400 [&_ul]:mt-2 [&_ul]:list-[circle] [&_ul]:space-y-1.5 [&_ul]:pl-5 [&_ul]:text-[0.925em] [&_ul]:text-gray-600">
+    <ul className="mb-4 list-disc space-y-3 pl-5 leading-7 text-gray-800 marker:text-gray-500 [&_ul]:mt-2 [&_ul]:list-[circle] [&_ul]:space-y-1.5 [&_ul]:pl-5 [&_ul]:text-[0.925em] [&_ul]:text-gray-700">
       {children}
     </ul>
   ),

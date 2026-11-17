@@ -29,14 +29,14 @@ function Footer() {
     <footer className="py-6 px-4 sm:px-14 ">
       <div className="container mx-auto flex flex-col gap-6 text-sm text-muted-foreground sm:flex-row sm:justify-between">
         <div>
-          <p className="mb-2 text-left font-normal text-sm/5 sm:text-base/5 ">
-            <span className="font-medium">기획과 디자인의 언어</span>를
+          <p className="mb-2 text-left text-sm/5 sm:text-base/5 ">
+            <span className="font-bold">기획과 디자인의 언어</span>를
             이해하고,
-            <span className="font-medium">개발 언어</span>로 옮깁니다. <br />
-            끊임 없는 <span className="font-medium">도전</span>을 통해 꾸준히{" "}
-            <span className="font-medium">성장</span>해나아가고 있습니다.
+            <span className="font-bold">개발 언어</span>로 옮깁니다. <br />
+            끊임 없는 <span className="font-bold">도전</span>을 통해 꾸준히{" "}
+            <span className="font-bold">성장</span>해나아가고 있습니다.
             <br />{" "}
-            <span className="font-medium">Let&rsquo;s go work together!</span>
+            <span className="font-bold">Let&rsquo;s go work together!</span>
           </p>
           © {new Date().getFullYear()} KISEON.dev. All rights reserved.
         </div>

@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
+
+const suit = localFont({
+  src: "./fonts/SUIT-Variable.woff2",
+  weight: "100 900",
+  display: "swap",
+  variable: "--font-suit",
+});
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://dev-protfoil.vercel.app";
@@ -47,19 +55,12 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  other: {
-    rel: "stylesheet",
-    href: "https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/variable/woff2/SUIT-Variable.css",
-  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ko" className={`h-full antialiased`}>
-      <body
-        className="min-h-dvh flex flex-col"
-        style={{ fontFamily: "'SUIT Variable', sans-serif" }}
-      >
+    <html lang="ko" className={`${suit.variable} h-full antialiased`}>
+      <body className="min-h-dvh flex flex-col">
         <Header />
         {children}
         <Footer />

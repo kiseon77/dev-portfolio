@@ -44,10 +44,6 @@ export default function DigitalTwin() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (!isLoading) inputRef.current?.focus();
-  }, [isLoading]);
-
-  useEffect(() => {
     fetch("/api/chat")
       .then((res) => res.json())
       .then((data) => {
